@@ -1,58 +1,212 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { SafeAreaView, TouchableOpacity, Text, Platform, StyleSheet, View, TextInput } from 'react-native';
-import { StringeeClient, StringeeCall, StringeeVideoView, StringeeRemoteVideoView } from 'stringee-react-native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import React, { Component } from "react";
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Button,
+    TouchableOpacity,
+    Keyboard,
+    AsyncStorage
+} from "react-native";
+import { StringeeClient } from "stringee-react-native";
 
-const HomeScreen = props => {
-    const [userId, setUserId] = useState('')
-    const user1 =
-        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg4NzIiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwODcyLCJ1c2VySWQiOiJ1c2VyMSJ9.xMbLGMyD0WCY88dhUL5PIpw1Pb-gfOq82tdrkHYn9Hw';
-    const user2 =
-        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg3NTciLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwNzU3LCJ1c2VySWQiOiJ1c2VyMiJ9.zHfhHehnvcrQhekuoow0lhyiy6hIf7xQSP8J3Nf7zzk';
-    const onPressLogin = () => {
-        if (userId == 'user1') {
-            props.navigation.navigate("Call", { token: user1 })
-        } else if (userId == 'user2') {
-            props.navigation.navigate("Call", { token: user2 })
-        }
+
+const user1 =
+    'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg4NzIiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwODcyLCJ1c2VySWQiOiJ1c2VyMSJ9.xMbLGMyD0WCY88dhUL5PIpw1Pb-gfOq82tdrkHYn9Hw';
+const user2 = "eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS0xIb2NCdDl6Qk5qc1pLeThZaUVkSzRsU3NBZjhCSHpyLTE1OTAwNTEzNzQiLCJpc3MiOiJTS0xIb2NCdDl6Qk5qc1pLeThZaUVkSzRsU3NBZjhCSHpyIiwiZXhwIjoxNTkyNjQzMzc0LCJ1c2VySWQiOiJ1c2VyMiJ9.I2WHHUZ9LqnV31vLzRM3-hrNsce6Ax3AzsMvQhwIW_E";
+
+const iOS = Platform.OS === "ios" ? true : false;
+
+export default class HomeScreen extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            myUserId: "",
+            callToUserId: "",
+            hasConnected: false,
+            token: this.props.route.params.token
+        };
+
+        this.clientEventHandlers = {
+            onConnect: this._clientDidConnect,
+            onDisConnect: this._clientDidDisConnect,
+            onFailWithError: this._clientDidFailWithError,
+            onRequestAccessToken: this._clientRequestAccessToken,
+            onIncomingCall: this._callIncomingCall
+        };
     }
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.welcome}>
-                React Native wrapper for Stringee mobile SDK!
-            </Text>
+    componentWillMount() { }
 
-            {/* <Text style={styles.info}>Logged in as: {this.state.myUserId}</Text> */}
+    async componentDidMount() {
+        await this.refs.client.connect(this.state.token);
+    }
 
-            <TextInput
-                underlineColorAndroid="transparent"
-                style={styles.input}
-                autoCapitalize="none"
-                value={userId}
-                placeholder="Make a call to userId"
-                onChangeText={text => setUserId(text)}
-            />
+    // Connection
+    _clientDidConnect = ({ userId }) => {
+        console.log("_clientDidConnect - " + userId);
+        this.setState({
+            myUserId: userId,
+            hasConnected: true
+        });
 
-            <View style={styles.buttonView}>
-                {/* <TouchableOpacity
-            style={styles.button}
-        //  onPress={this._onVoiceCallButtonPress}
-        >
-            <Text style={styles.text}>Voice Call</Text>
-        </TouchableOpacity> */}
+        // if (!iOS) {
+        //   AsyncStorage.getItem("isPushTokenRegistered").then(value => {
+        //     if (value !== "true") {
+        //       FCM.getFCMToken().then(token => {
+        //         this.refs.client.registerPush(
+        //           token,
+        //           true,
+        //           true,
+        //           (result, code, desc) => {
+        //             if (result) {
+        //               AsyncStorage.multiSet([
+        //                 ["isPushTokenRegistered", "true"],
+        //                 ["token", token]
+        //               ]);
+        //             }
+        //           }
+        //         );
+        //       });
+        //     }
+        //   });
 
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => { onPressLogin() }}
-                >
-                    <Text style={styles.text}>Login</Text>
-                </TouchableOpacity>
+        //   FCM.on(FCMEvent.RefreshToken, token => {
+        //     this.refs.client.registerPush(
+        //       token,
+        //       true,
+        //       true,
+        //       (result, code, desc) => {}
+        //     );
+        //   });
+        // }
+    };
+
+    _clientDidDisConnect = () => {
+        console.log("_clientDidDisConnect");
+        this.setState({
+            myUserId: "",
+            hasConnected: false
+        });
+    };
+
+    _clientDidFailWithError = () => {
+        console.log("_clientDidFailWithError");
+    };
+
+    _clientRequestAccessToken = () => {
+        console.log("_clientRequestAccessToken");
+        // Token để kết nối tới Stringee server đã hết bạn. Bạn cần lấy token mới và gọi connect lại ở đây
+        // this.refs.client.connect("NEW_TOKEN");
+    };
+
+    // Call events
+    _callIncomingCall = ({
+        callId,
+        from,
+        to,
+        fromAlias,
+        toAlias,
+        callType,
+        isVideoCall,
+        customDataFromYourServer
+    }) => {
+        console.log(
+            "IncomingCallId-" +
+            callId +
+            " from-" +
+            from +
+            " to-" +
+            to +
+            " fromAlias-" +
+            fromAlias +
+            " toAlias-" +
+            toAlias +
+            " isVideoCall-" +
+            isVideoCall +
+            "callType-" +
+            callType +
+            "customDataFromYourServer-" +
+            customDataFromYourServer
+        );
+
+        this.props.navigation.navigate("Call", {
+            callId: callId,
+            from: from,
+            to: to,
+            isOutgoingCall: false,
+            isVideoCall: isVideoCall
+        });
+    };
+
+    // Action
+    _onVoiceCallButtonPress = () => {
+        console.log("_onVoiceCallButtonPress");
+        Keyboard.dismiss();
+        if (this.state.callToUserId != "" && this.state.hasConnected) {
+            this.props.navigation.navigate("Call", {
+                from: this.state.myUserId,
+                to: this.state.callToUserId,
+                isOutgoingCall: true,
+                isVideoCall: false
+            });
+        }
+    };
+
+    _onVideoCallButtonPress = () => {
+        Keyboard.dismiss();
+        console.log("_onVideoCallButtonPress");
+        if (this.state.callToUserId != "" && this.state.hasConnected) {
+            this.props.navigation.navigate("Call", {
+                from: this.state.myUserId,
+                to: this.state.callToUserId,
+                isOutgoingCall: true,
+                isVideoCall: true
+            });
+        }
+    };
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <Text style={styles.welcome}>
+                    React Native wrapper for Stringee mobile SDK!
+        </Text>
+
+                <Text style={styles.info}>Logged in as: {this.state.myUserId}</Text>
+
+                <TextInput
+                    underlineColorAndroid="transparent"
+                    style={styles.input}
+                    autoCapitalize="none"
+                    value={this.state.callToUserId}
+                    placeholder="Make a call to userId"
+                    onChangeText={text => this.setState({ callToUserId: text })}
+                />
+
+                <View style={styles.buttonView}>
+                    {/* <TouchableOpacity
+                        style={styles.button}
+                        onPress={this._onVoiceCallButtonPress}
+                    >
+                        <Text style={styles.text}>Voice Call</Text>
+                    </TouchableOpacity> */}
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={this._onVideoCallButtonPress}
+                    >
+                        <Text style={styles.text}>Video Call</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <StringeeClient ref="client" eventHandlers={this.clientEventHandlers} />
             </View>
-
-            {/* <StringeeClient ref="client" eventHandlers={this.clientEventHandlers} /> */}
-        </View>
-    )
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -113,5 +267,3 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     }
 });
-
-export default HomeScreen;
