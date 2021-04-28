@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1017536500446",
+    "project_id": "stringeecall-8d8b9",
+    "storage_bucket": "stringeecall-8d8b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017536500446:android:f32168a10c496eb8d2684f",
+        "android_client_info": {
+          "package_name": "com.stringeecall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017536500446-od17b6us5no5quapm226iuheq72goorv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsB0whLv3w3i56XK_Ohurlrub0DzDXcJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017536500446-od17b6us5no5quapm226iuheq72goorv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

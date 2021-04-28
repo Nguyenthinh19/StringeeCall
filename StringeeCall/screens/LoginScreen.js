@@ -15,6 +15,7 @@ const LoginScreen = props => {
         } else if (userId == 'user2') {
             props.navigation.navigate("Home", { token: user2 })
         }
+        // props.navigation.navigate("Home", { token: userId })
     }
 
     return (
@@ -30,7 +31,7 @@ const LoginScreen = props => {
                 style={styles.input}
                 autoCapitalize="none"
                 value={userId}
-                placeholder="Make a call to userId"
+                placeholder="Nhập Token"
                 onChangeText={text => setUserId(text)}
             />
 

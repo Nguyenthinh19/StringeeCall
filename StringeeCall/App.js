@@ -218,7 +218,11 @@ import { RootStack } from './screens/RouterScreen'
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/HomeScreen';
 import CallScreen from './screens/CallScreen';
+import messaging from '@react-native-firebase/messaging';
 
+messaging().setBackgroundMessageHandler((notifcation) => {
+  console.log(notifcation)
+});
 const App = () => {
   const Stack = createStackNavigator();
   return (
