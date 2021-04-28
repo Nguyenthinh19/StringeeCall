@@ -220,9 +220,12 @@ import HomeScreen from './screens/HomeScreen';
 import CallScreen from './screens/CallScreen';
 import messaging from '@react-native-firebase/messaging';
 
-messaging().setBackgroundMessageHandler((notifcation) => {
-  console.log(notifcation)
-});
+async function onMessageReceived(message) {
+  const data = JSON.parse(message.data.data);
+  console.log(data)
+}
+messaging().setBackgroundMessageHandler(onMessageReceived);
+
 const App = () => {
   const Stack = createStackNavigator();
   return (
