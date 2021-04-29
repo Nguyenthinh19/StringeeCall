@@ -66,49 +66,27 @@ export default class HomeScreen extends Component {
             myUserId: userId,
             hasConnected: true
         });
-
-        messaging().getToken().then((token) => {
-            console.log('token1', token)
-            this.refs.client.registerPush(
-                token,
-                true,
-                true,
-                (result, code, desc) => {
-                    console.log('registerPush', result, code, desc)
-                },
-            );
-        });
-
-        // if (!iOS) {
-        //   AsyncStorage.getItem("isPushTokenRegistered").then(value => {
-        //     if (value !== "true") {
-        //       FCM.getFCMToken().then(token => {
-        //         this.refs.client.registerPush(
-        //           token,
-        //           true,
-        //           true,
-        //           (result, code, desc) => {
-        //             if (result) {
-        //               AsyncStorage.multiSet([
-        //                 ["isPushTokenRegistered", "true"],
-        //                 ["token", token]
-        //               ]);
-        //             }
-        //           }
-        //         );
-        //       });
-        //     }
-        //   });
-
-        //   FCM.on(FCMEvent.RefreshToken, token => {
-        //     this.refs.client.registerPush(
-        //       token,
-        //       true,
-        //       true,
-        //       (result, code, desc) => {}
-        //     );
-        //   });
-        // }
+        if (!iOS) {
+            messaging().getToken().then((token) => {
+                console.log('token1', token)
+                this.refs.client.registerPush(
+                    token,
+                    true,
+                    true,
+                    (result, code, desc) => {
+                        console.log('registerPush', result, code, desc)
+                    },
+                );
+            });
+            messaging().onTokenRefresh(token => {
+                this.refs.client.registerPush(
+                    token,
+                    true,
+                    true,
+                    (result, code, desc) => { },
+                );
+            });
+        }
     };
 
     _clientDidDisConnect = () => {
