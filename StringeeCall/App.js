@@ -205,27 +205,21 @@
  * @flow
  */
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import messaging from '@react-native-firebase/messaging';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RootStack } from './screens/RouterScreen'
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/HomeScreen';
+import React from 'react';
+import {
+  StyleSheet
+} from 'react-native';
 import CallScreen from './screens/CallScreen';
-import messaging from '@react-native-firebase/messaging';
-
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
 async function onMessageReceived(message) {
   const data = JSON.parse(message.data.data);
-  console.log(data)
+  console.log('noti', data)
 }
 messaging().setBackgroundMessageHandler(onMessageReceived);
-
 const App = () => {
   const Stack = createStackNavigator();
   return (
