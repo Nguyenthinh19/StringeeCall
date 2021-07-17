@@ -6,9 +6,9 @@ import { useSafeArea } from 'react-native-safe-area-context';
 const LoginScreen = props => {
     const [userId, setUserId] = useState('')
     const user1 =
-        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg4NzIiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwODcyLCJ1c2VySWQiOiJ1c2VyMSJ9.xMbLGMyD0WCY88dhUL5PIpw1Pb-gfOq82tdrkHYn9Hw';
+        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MjY0OTE0MDEiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjI5MDgzNDAxLCJ1c2VySWQiOiJwaHVvbmdnIn0.f2EjtnPnDBojWttTHLAVLV8OF-Mcx60TIUfUg82Pnj0';
     const user2 =
-        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg3NTciLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwNzU3LCJ1c2VySWQiOiJ1c2VyMiJ9.zHfhHehnvcrQhekuoow0lhyiy6hIf7xQSP8J3Nf7zzk';
+        'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MjY0OTE0MzgiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjI5MDgzNDM4LCJ1c2VySWQiOiJwaHVvbmdnMjIyIn0.N7Pb71U2LWa_hX5dUUSxCL9yzRE8EYvJVNAwYz1a2OY';
     const onPressLogin = () => {
         if (userId == 'user1') {
             props.navigation.navigate("Home", { token: user1 })

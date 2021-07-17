@@ -15,7 +15,7 @@ import messaging from '@react-native-firebase/messaging';
 
 
 const user1 =
-    'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MTg1NDg4NzIiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjIxMTQwODcyLCJ1c2VySWQiOiJ1c2VyMSJ9.xMbLGMyD0WCY88dhUL5PIpw1Pb-gfOq82tdrkHYn9Hw';
+    'eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yLTE2MjY0OTE0MDEiLCJpc3MiOiJTS1U1Q01IeTdpcXM2Q0d6ZmNzYm5nQzJUV2tLNHBzTm1yIiwiZXhwIjoxNjI5MDgzNDAxLCJ1c2VySWQiOiJwaHVvbmdnIn0.f2EjtnPnDBojWttTHLAVLV8OF-Mcx60TIUfUg82Pnj0';
 const user2 = "eyJjdHkiOiJzdHJpbmdlZS1hcGk7dj0xIiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJqdGkiOiJTS0xIb2NCdDl6Qk5qc1pLeThZaUVkSzRsU3NBZjhCSHpyLTE1OTAwNTEzNzQiLCJpc3MiOiJTS0xIb2NCdDl6Qk5qc1pLeThZaUVkSzRsU3NBZjhCSHpyIiwiZXhwIjoxNTkyNjQzMzc0LCJ1c2VySWQiOiJ1c2VyMiJ9.I2WHHUZ9LqnV31vLzRM3-hrNsce6Ax3AzsMvQhwIW_E";
 
 const iOS = Platform.OS === "ios" ? true : false;
@@ -178,7 +178,7 @@ export default class HomeScreen extends Component {
             <View style={styles.container}>
                 <Text style={styles.welcome}>
                     React Native wrapper for Stringee mobile SDK!
-        </Text>
+                </Text>
 
                 <Text style={styles.info}>Logged in as: {this.state.myUserId}</Text>
 
